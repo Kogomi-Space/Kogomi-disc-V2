@@ -20,7 +20,8 @@ def get_prefix(bot, message):
 # Think of it like a dot path import
 initial_extensions = ['cogs.general',
                       'cogs.owner',
-                      'cogs.errorhandler']
+                      'cogs.errorhandler',
+                      'cogs.osu.osu']
 
 bot = commands.Bot(command_prefix=get_prefix, description='Kogomi--The Virtual Assistant')
 

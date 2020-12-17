@@ -19,7 +19,6 @@ class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
     @commands.command(name='repeat', aliases=['copy', 'mimic'])
     async def do_repeat(self, ctx, *, our_input: str):
         """A simple command which repeats our input.

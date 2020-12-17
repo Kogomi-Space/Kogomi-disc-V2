@@ -18,7 +18,7 @@ class Owner(commands.Cog):
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send(f'Loaded {cog}.')
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
@@ -31,7 +31,7 @@ class Owner(commands.Cog):
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send(f'Unloaded {cog}.')
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
@@ -45,7 +45,7 @@ class Owner(commands.Cog):
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send(f'Reloaded {cog}.')
 
     @commands.command(name='list', hidden=True)
     @commands.is_owner()
