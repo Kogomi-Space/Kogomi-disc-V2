@@ -2,8 +2,11 @@ from discord.ext import commands
 from .userClass import UserClass as User
 from .beatmapClass import BeatmapClass as Beatmap
 from .databaseClass import DatabaseClass as Database
+from .osuClass import OsuClass as Osuclass
+import importlib
 import datetime
 import asyncio
+from .matchCosts import mcformula
 
 class Osu(commands.Cog):
     """Commands relating to the rhythm game osu!"""
@@ -13,8 +16,9 @@ class Osu(commands.Cog):
         self.user = User()
         self.beatmap = Beatmap()
         self.db = Database()
+        self.osu = Osuclass()
 
-    @commands.command(name='sf')
+    @commands.command(aliases=['sf'])
     async def sformat(self, ctx, mapid, mods = "NM"):
         mods = mods.lower()
         modnum = 0
@@ -93,7 +97,7 @@ class Osu(commands.Cog):
             await ctx.send("Something went wrong. Contact Dain for help.")
 
     @commands.command()
-    async def osu(self, ctx,*username_list):
+    async def osu(self, ctx, *username_list):
         """Shows an osu user!"""
         user = User(username_list, ctx.author.id)
         if not user.user:
@@ -105,6 +109,21 @@ class Osu(commands.Cog):
             await ctx.send(embed=user.embed(res))
         else:
             await ctx.send("No results.")
+
+    @commands.command(aliases=['mc'])
+    async def match_costs(self, ctx, url, warmups = 2):
+        """Shows how well each player did in a multi lobby."""
+        if 'https://osu.ppy.sh/community/matches' in url:
+            try:
+                url = url.split("matches/")
+            except:
+                await ctx.send("Invalid URL! :x:")
+                return
+            url = url[1]
+        async with ctx.typing():
+            res = await self.osu.getMatch(mp=url)
+            embed = await mcformula(self, url, res, warmups)
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Osu(bot))

@@ -43,12 +43,12 @@ class UserClass:
     async def getUser(self, user = False, userCheck = False):
         if not user:
             user = self.id
-        print(user)
         json = await self.fetch_json('get_user',f'u={user}')
         if len(json) == 0:
             return False
-        res = self.db.change_osuname(self.discid, json[0]['username'])
-
+        if self.discid:
+            print("hey")
+            res = self.db.change_osuname(self.discid, json[0]['username'])
         if not userCheck: return json
         return user
 
