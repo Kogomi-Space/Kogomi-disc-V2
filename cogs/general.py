@@ -23,7 +23,6 @@ class General(commands.Cog):
     async def do_repeat(self, ctx, *, our_input: str):
         """A simple command which repeats our input.
         In rewrite Context is automatically passed to our commands as the first argument after self."""
-
         await ctx.send(our_input)
 
     @commands.command(name='add', aliases=['plus'])

@@ -3,10 +3,10 @@ from .userClass import UserClass as User
 from .beatmapClass import BeatmapClass as Beatmap
 from .databaseClass import DatabaseClass as Database
 from .osuClass import OsuClass as Osuclass
+from .matchCosts import mcformula
 import importlib
 import datetime
 import asyncio
-from .matchCosts import mcformula
 
 class Osu(commands.Cog):
     """Commands relating to the rhythm game osu!"""
@@ -125,5 +125,31 @@ class Osu(commands.Cog):
             embed = await mcformula(self, url, res, warmups)
             await ctx.send(embed=embed)
 
+    @commands.command()
+    async def bws(self,ctx,rank,bcount):
+        """Check your Badge Weighted Seeding rank. -bws [rank] [badgecount]"""
+        bcount = int(bcount)
+        rank = int(rank)
+        newrank = bcount ** 2
+        newrank = 0.9937 ** newrank
+        newrank = rank ** newrank
+        newrank = round(newrank)
+        await ctx.send("Previous Rank: **{}**    Badge Count: **{}**".format(rank,bcount))
+        await ctx.send("Rank after BWS: **{}**".format(newrank))
+
+    @commands.command()
+    async def petbws(self,ctx,rank,bcount):
+        """Check your Badge Weighted Seeding rank for Pls Enjoy Tournament. -petbws [rank] [badgecount]"""
+        bcount = int(bcount)
+        rank = int(rank)
+        newrank = 1 + bcount
+        newrank **= 1.06
+        newrank = 0.7 ** newrank
+        newrank = (0.09 * rank) ** newrank
+        newrank = (0.9 * rank) / newrank
+        newrank = rank - newrank
+        newrank = round(newrank)
+        await ctx.send("Previous Rank: **{}**    Badge Count: **{}**".format(rank,bcount))
+        await ctx.send("Rank after BWS: **{}**".format(newrank))
 def setup(bot):
     bot.add_cog(Osu(bot))

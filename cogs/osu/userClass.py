@@ -47,7 +47,6 @@ class UserClass:
         if len(json) == 0:
             return False
         if self.discid:
-            print("hey")
             res = self.db.change_osuname(self.discid, json[0]['username'])
         if not userCheck: return json
         return user

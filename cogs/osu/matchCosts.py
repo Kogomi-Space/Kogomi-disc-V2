@@ -78,7 +78,7 @@ async def mcformula(self, url, res, warmups):
         f = []
         for index, player in enumerate(userlist):
             try:
-                username = await self.osu.getUser(user=player)
+                username = await self.user.getUser(user=player)
                 username = username[0]['username']
             except Exception as e:
                 print(e)

@@ -51,7 +51,6 @@ class DatabaseClass():
     def change_osuid(self, discid, osuid, osuname):
         try:
             if not self.create_user(discid, osuid, osuname):
-                print(osuname)
                 sql = f"UPDATE users SET osuid = '{osuid}', osuname = '{osuname}' WHERE discid = '{discid}'"
                 self.cursor.execute(sql)
                 self.db.commit()
@@ -74,7 +73,7 @@ class DatabaseClass():
         self.cursor.execute("SELECT * FROM users WHERE discid = '{}'".format(discid))
         res = self.cursor.fetchall()
         if len(res) == 0:
-            sql = "INSERT INTO users (discid, osuid, osuname loluser, lolregion) VALUES (%s, %s, %s, %s, %s)"
+            sql = "INSERT INTO users (discid, osuid, osuname, loluser, lolregion) VALUES (%s, %s, %s, %s, %s)"
             val = (discid, osuid, osuname, loluser, lolregion)
             self.cursor.execute(sql, val)
             self.db.commit()

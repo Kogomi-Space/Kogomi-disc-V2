@@ -49,6 +49,11 @@ class CommandErrorHandler(commands.Cog):
             except discord.HTTPException:
                 pass
 
+        elif isinstance(error, commands.MissingRequiredArgument):
+            try:
+                await ctx.send(f"Proper Usage: `{ctx.prefix}{ctx.command} [{error.param.name}]`")
+            except discord.HTTPException:
+                pass
         # For this error example we check to see where it came from...
         elif isinstance(error, commands.BadArgument):
             if ctx.command.qualified_name == 'tag list':  # Check if the command being invoked is 'tag list'
@@ -59,6 +64,8 @@ class CommandErrorHandler(commands.Cog):
             await ctx.send(f'An exception has occured while using the command `{ctx.prefix}{ctx.command}`. Please contact Dain if you think this is a mistake.')
             print('---------------------------------------------------------------------------------')
             print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            logChannel = self.bot.get_channel(789161503894929448)
+            await logChannel.send(f"**Command Used: `{ctx.prefix}{ctx.command}`**\n" + "```" + "\n".join(traceback.format_exception(type(error), error, error.__traceback__)) + "```")
             traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             print('---------------------------------------------------------------------------------')
 
