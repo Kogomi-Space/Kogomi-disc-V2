@@ -19,6 +19,21 @@ class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(aliases=['gvoice'])
+    async def generatevoice(self,ctx):
+        try:
+            vcid = ctx.message.author.voice.channel.id
+            serverid = ctx.message.guild.id
+            url = f"https://streamkit.discord.com/overlay/voice/{serverid}/{vcid}?icon=true&online=true&logo=white&text_color=%23ffffff&text_size=14&text_outline_color=%23000000&text_outline_size=0&text_shadow_color=%23000000&text_shadow_size=0&bg_color=%231e2124&bg_opacity=0.95&bg_shadow_color=%23000000&bg_shadow_size=0&invite_code=&limit_speaking=true&small_avatars=false&hide_names=false&fade_chat=0"
+            async with ctx.typing():
+                embed = discord.Embed()
+                embed.title = "Voice Channel Stream Kit Link"
+                embed.description = f"```{url}```\n\n[Test]({url})"
+                await ctx.send(embed=embed)
+        except Exception as e:
+            await ctx.send("You're not in a voice channel! :x:")
+            print(e)
+
     @commands.command(name='repeat', aliases=['copy', 'mimic'])
     async def do_repeat(self, ctx, *, our_input: str):
         """A simple command which repeats our input.
