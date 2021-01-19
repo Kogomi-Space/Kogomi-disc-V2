@@ -4,8 +4,7 @@ from collections import OrderedDict
 
 async def mcformula(self, url, res, warmups):
     if res['match'] == 0:
-        await ctx.send("Invalid URL! :x:")
-        return
+        return False
     if warmups <= 0:
         pass
     else:

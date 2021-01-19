@@ -1,5 +1,5 @@
 from discord.ext import commands
-
+import discord
 
 class Owner(commands.Cog):
 
@@ -56,6 +56,40 @@ class Owner(commands.Cog):
         for cog in cogs:
             f.append(cog)
         await ctx.send(",".join(f))
+
+    @commands.command(name='makeannounce', hidden=True)
+    @commands.is_owner()
+    async def makeannounce(self, ctx):
+        announceChannel = self.bot.get_channel(800328080291397673)
+        await ctx.send("OK! Ready. First tell me the title of this announcement.")
+        title = await self.wait_for_message(ctx)
+        await ctx.send("Perfect. Now the GitHub push URL. ")
+        githubUrl = await self.wait_for_message(ctx)
+        await ctx.send("If there's an image you'd like to include, post it now. If not, say \"none\".")
+        imageUrl = await self.wait_for_message(ctx)
+        if imageUrl.lower() == "none":
+            imageUrl = None
+        await ctx.send("Now tell me the actual changes.")
+        body = await self.wait_for_message(ctx)
+        embed=discord.Embed(color=0x83CDE4)
+        embed.set_author(name=title, url=githubUrl)
+        if imageUrl:
+            embed.set_image(url=imageUrl)
+        embed.add_field(name="-------------------------", value=body, inline=False)
+        embed.set_thumbnail(url="https://i.imgur.com/UPetfcF.png")
+        await ctx.send(embed=embed)
+        await ctx.send("Is this correct?")
+        res = await self.wait_for_message(ctx)
+        if res.lower() == "y":
+            await announceChannel.send(embed=embed)
+        else:
+            await ctx.send("please try again by sending the command again.")
+
+    async def wait_for_message(self, ctx):
+        def check(m):
+            return m.channel == ctx.message.channel and m.author == ctx.message.author
+        msg = await self.bot.wait_for('message', check=check)
+        return msg.content
 
 def setup(bot):
     bot.add_cog(Owner(bot))

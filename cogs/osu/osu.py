@@ -120,8 +120,18 @@ class Osu(commands.Cog):
                 await ctx.send("Invalid URL! :x:")
                 return
             url = url[1]
+        elif 'https://osu.ppy.sh/mp' in url:
+            try:
+                url = url.split('mp/')
+            except:
+                await ctx.send("Invalid URL! :x:")
+                return
+            url = url[1]
         async with ctx.typing():
             res = await self.osu.getMatch(mp=url)
+            if not res:
+                await ctx.send("Invalid URL! :x:")
+                return
             embed = await mcformula(self, url, res, warmups)
             await ctx.send(embed=embed)
 

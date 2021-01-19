@@ -3,6 +3,7 @@ from discord.ext import commands
 
 import os, sys, traceback
 from subprocess import call
+from random import randrange
 
 call(['python3', '-m', 'pip', 'install', '--upgrade', 'discord.py[voice]'])
 
@@ -34,6 +35,7 @@ if __name__ == '__main__':
 async def on_ready():
     """http://discordpy.readthedocs.io/en/rewrite/api.html#discord.on_ready"""
 
+    # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="everyone join my server: https://discord.gg/hFWKxmD27Z"))
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
 
     # Changes our bots Playing Status. type=1(streaming) for a standard game you could remove type and url.
