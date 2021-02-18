@@ -9,9 +9,14 @@ class UserClass:
     def __init__(self, user = "", discid = None):
         self.db = DB()
         username = " ".join(user)
-        self.user = self.db.fetch_osuname(discid) if username == "" else username
-        self.id = self.db.fetch_osuid(discid)
-        self.discid = discid
+        if username == "":
+            self.user = self.db.fetch_osuname(discid)
+            self.id = self.db.fetch_osuid(discid)
+            self.discid = discid
+        else:
+            self.user = username
+            self.id = None
+            self.discid = discid
         self.url = "https://osu.ppy.sh/api"
         self.key = config('OSUAPI')
         self.cache = config('CACHE_FILE_PATH')
@@ -20,8 +25,7 @@ class UserClass:
     def embed(self, json):
         embed = discord.Embed()
         embed.title = json[0]["username"]
-        embed.url = "https://osu.ppy.sh/u/{}".format(json[0]["user_id"])
-        embed.set_footer(text="Powered by osu!")
+        embed.url = "https://osu.ppy.sh/users/{}".format(json[0]["user_id"])
         embed.add_field(name="Join date", value=json[0]["join_date"][:10])
         embed.add_field(name="Accuracy", value=json[0]["accuracy"][:6])
         embed.add_field(name="Level", value=json[0]["level"][:5])
@@ -40,16 +44,22 @@ class UserClass:
         embed.set_thumbnail(url="https://a.ppy.sh/{}".format(json[0]["user_id"]))
         return embed
 
-    async def getUser(self, user = False, userCheck = False):
-        if not user:
-            user = self.id
+    async def getUser(self):
+        json = await self.fetch_json('get_user',f'u={self.user}')
+        if len(json) == 0:
+            return False
+        await self.updateUsername(json)
+        return json
+
+    async def getUsername(self, user):
         json = await self.fetch_json('get_user',f'u={user}')
         if len(json) == 0:
             return False
-        if self.discid:
+        return json[0]['username']
+
+    async def updateUsername(self, json):
+        if self.id and self.user != json[0]['username']:
             res = self.db.change_osuname(self.discid, json[0]['username'])
-        if not userCheck: return json
-        return user
 
     async def getUserBest(self, user = False):
         user = getUser(user=user, userCheck=True)

@@ -24,3 +24,14 @@ class OsuClass:
                     return res
             except Exception as e:
                 return {}
+
+    def calculate_acc(self,beatmap):
+        total_unscale_score = float(beatmap['count300'])
+        total_unscale_score += float(beatmap['count100'])
+        total_unscale_score += float(beatmap['count50'])
+        total_unscale_score += float(beatmap['countmiss'])
+        total_unscale_score *=300
+        user_score = float(beatmap['count300']) * 300.0
+        user_score += float(beatmap['count100']) * 100.0
+        user_score += float(beatmap['count50']) * 50.0
+        return (float(user_score)/float(total_unscale_score)) * 100.0

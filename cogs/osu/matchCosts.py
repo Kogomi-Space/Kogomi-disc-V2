@@ -17,7 +17,7 @@ async def mcformula(self, url, res, warmups):
         teamVS = True
     else:
         teamVS = False
-    res['games'], playerlist = parse_match(res['games'], teamVS)
+    res['games'], playerlist = parse_match(self, res['games'], teamVS)
     try:
         if ":" in res['match']['name']:
             name = res['match']['name'].split(":")
@@ -48,8 +48,7 @@ async def mcformula(self, url, res, warmups):
         f.append(":blue_circle: **Blue Team** :blue_circle:")
         for index, player in enumerate(userlist0):
             try:
-                username = await self.user.getUser(user=player)
-                username = username[0]['username']
+                username = await self.user.getUsername(user=player)
             except:
                 username = player + " (Banned)"
             f.append("**{}**: {:15} - **{:0.2f}**".format(index + 1, username, pointlist0[index]))
@@ -57,8 +56,7 @@ async def mcformula(self, url, res, warmups):
         f.append(":red_circle: **Red Team** :red_circle:")
         for index, player in enumerate(userlist1):
             try:
-                username = await self.user.getUser(user=player)
-                username = username[0]['username']
+                username = await self.user.getUsername(user=player)
             except:
                 username = player + " (Banned)"
             f.append("**{}**: {:15} - **{:0.2f}**".format(index + 1, username, pointlist1[index]))
@@ -77,8 +75,7 @@ async def mcformula(self, url, res, warmups):
         f = []
         for index, player in enumerate(userlist):
             try:
-                username = await self.user.getUser(user=player)
-                username = username[0]['username']
+                username = await self.user.getUsername(user=player)
             except Exception as e:
                 print(e)
                 username = player + " (Banned)"
@@ -97,7 +94,7 @@ async def mcformula(self, url, res, warmups):
     embed.set_footer(text=footer[random.randint(0,5)])
     return embed
 
-def parse_match(games,teamVS):
+def parse_match(self,games,teamVS):
     plist = {}
     for game in games:
         try:
@@ -154,7 +151,7 @@ def parse_match(games,teamVS):
                 plist[g['user_id']] = 0
             g['score'] = score['score']
             g['maxcombo'] = score['maxcombo']
-            g['acc'] = calculate_acc(score)
+            g['acc'] = self.osu.calculate_acc(score)
             g['enabled_mods'] = score['enabled_mods']
             scoresum += int(score['score'])
             game['playercount'] += 1
@@ -217,14 +214,3 @@ def sortdict(main_list):
         list1.append(key)
         list2.append(value)
     return list1, list2
-
-def calculate_acc(beatmap):
-    total_unscale_score = float(beatmap['count300'])
-    total_unscale_score += float(beatmap['count100'])
-    total_unscale_score += float(beatmap['count50'])
-    total_unscale_score += float(beatmap['countmiss'])
-    total_unscale_score *=300
-    user_score = float(beatmap['count300']) * 300.0
-    user_score += float(beatmap['count100']) * 100.0
-    user_score += float(beatmap['count50']) * 50.0
-    return (float(user_score)/float(total_unscale_score)) * 100.0

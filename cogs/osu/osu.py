@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 from .userClass import UserClass as User
 from .beatmapClass import BeatmapClass as Beatmap
 from .databaseClass import DatabaseClass as Database
@@ -13,10 +13,16 @@ class Osu(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.REFRESH_CYCLE = 0
+        self.LOG_CHANNEL_ID = 789161503894929448
         self.user = User()
         self.beatmap = Beatmap()
         self.db = Database()
         self.osu = Osuclass()
+        self.refreshdb.start()
+
+    def cog_unload(self):
+        self.refreshdb.cancel()
 
     @commands.command(aliases=['sf'])
     async def sformat(self, ctx, mapid, mods = "NM"):
@@ -136,6 +142,17 @@ class Osu(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command()
+    async def acc(self,ctx,c300,c100,c50,cMisses):
+        """Calculates your accuracy! Format: -acc [300s] [100s] [50s] [misses]"""
+        temp = {
+            'count300' : c300,
+            'count100' : c100,
+            'count50' : c50,
+            'countmiss' : cMisses
+        }
+        await ctx.send("Your accuracy for [**{}**/**{}**/**{}**/**{}**] is **{}%**.".format(c300,c100,c50,cMisses,round(self.osu.calculate_acc(temp),2)))
+
+    @commands.command()
     async def bws(self,ctx,rank,bcount):
         """Check your Badge Weighted Seeding rank. -bws [rank] [badgecount]"""
         bcount = int(bcount)
@@ -161,5 +178,14 @@ class Osu(commands.Cog):
         newrank = round(newrank)
         await ctx.send("Previous Rank: **{}**    Badge Count: **{}**".format(rank,bcount))
         await ctx.send("Rank after BWS: **{}**".format(newrank))
+
+    @tasks.loop(hours=1.0)
+    async def refreshdb(self):
+        logChannel = self.bot.get_channel(self.LOG_CHANNEL_ID)
+        debugMsg = await logChannel.send("Refreshing DB...")
+        await self.db.refresh()
+        self.REFRESH_CYCLE += 1
+        await debugMsg.edit(content=f"Refreshing DB... Complete. Cycled {self.REFRESH_CYCLE} time(s). ")
+
 def setup(bot):
     bot.add_cog(Osu(bot))
