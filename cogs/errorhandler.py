@@ -3,7 +3,6 @@ import traceback
 import sys
 from discord.ext import commands
 
-
 class CommandErrorHandler(commands.Cog):
 
     def __init__(self, bot):
@@ -51,7 +50,8 @@ class CommandErrorHandler(commands.Cog):
 
         elif isinstance(error, commands.MissingRequiredArgument):
             try:
-                await ctx.send(f"Proper Usage: `{ctx.prefix}{ctx.command} [{error.param.name}]`")
+                # await ctx.send(f"Proper Usage: `{ctx.prefix}{ctx.command} [{error.param.name}]`")
+                await ctx.send_help(ctx.command)
             except discord.HTTPException:
                 pass
         # For this error example we check to see where it came from...
