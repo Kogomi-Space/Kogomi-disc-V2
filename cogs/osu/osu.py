@@ -91,11 +91,12 @@ class Osu(commands.Cog):
         if username == "":
             await ctx.send("Username can't be blank! :x:")
             return
-        user = User(user=username,discid=ctx.author.id)
-        json = await user.getUser(user=username)
+        user = User(user=username_list,discid=ctx.author.id)
+        json = await user.getUser()
         if not json:
             await ctx.send("User not found in the osu! database. :x:")
             return
+        print(json)
         res = self.db.change_osuid(ctx.author.id,json[0]['user_id'],json[0]['username'])
         if res:
             await ctx.send(f"Added, your osu! username is set to {json[0]['username']}. ✅")
@@ -186,6 +187,8 @@ class Osu(commands.Cog):
         await self.db.refresh()
         self.REFRESH_CYCLE += 1
         await debugMsg.edit(content=f"Refreshing DB... Complete. Cycled {self.REFRESH_CYCLE} time(s). ")
+
+
 
 def setup(bot):
     bot.add_cog(Osu(bot))
