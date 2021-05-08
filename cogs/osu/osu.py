@@ -14,7 +14,7 @@ class Osu(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.REFRESH_CYCLE = 0
-        self.LOG_CHANNEL_ID = 789161503894929448
+        self.LOG_CHANNEL_ID = 840415135034114068
         self.user = User()
         self.beatmap = Beatmap()
         self.db = Database()

@@ -64,7 +64,7 @@ class CommandErrorHandler(commands.Cog):
             await ctx.send(f'An exception has occured while using the command `{ctx.prefix}{ctx.command}`. Please contact Dain if you think this is a mistake.')
             print('---------------------------------------------------------------------------------')
             print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-            logChannel = self.bot.get_channel(789161503894929448)
+            logChannel = self.bot.get_channel(840415135034114068)
             await logChannel.send(f"**Command Used: `{ctx.prefix}{ctx.command}`**\n" + "```" + "\n".join(traceback.format_exception(type(error), error, error.__traceback__)) + "```")
             traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             print('---------------------------------------------------------------------------------')
