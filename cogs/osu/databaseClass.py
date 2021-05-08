@@ -8,9 +8,9 @@ class DatabaseClass():
     def __init__(self):
         self.db = mysql.connector.connect(
             host="localhost",
-            user="root",
+            user="bot",
             passwd=config('DBPASS'),
-            database="Cubchoo"
+            database="Kogomi"
         )
         self.cursor = self.db.cursor()
 
@@ -25,9 +25,9 @@ class DatabaseClass():
         self.cursor.close()
         self.db = mysql.connector.connect(
             host="localhost",
-            user="root",
+            user="bot",
             passwd=config('DBPASS'),
-            database="Cubchoo"
+            database="Kogomi"
         )
         self.cursor = self.db.cursor()
         print("Complete.")
