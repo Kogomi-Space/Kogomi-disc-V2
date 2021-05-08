@@ -89,7 +89,7 @@ class Osu(commands.Cog):
         """Set your osu! username."""
         username = " ".join(username_list)
         if username == "":
-            await ctx.send("Username can't be blank! :x:")
+            await ctx.send_help(ctx.command)
             return
         user = User(user=username_list,discid=ctx.author.id)
         json = await user.getUser()

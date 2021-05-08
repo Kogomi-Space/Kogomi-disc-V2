@@ -4,6 +4,7 @@ from discord.ext import commands
 import os, sys, traceback
 from subprocess import call
 from random import randrange
+from discord_slash import SlashCommand
 
 call(['python3', '-m', 'pip', 'install', '--upgrade', 'discord.py[voice]'])
 
@@ -25,6 +26,7 @@ initial_extensions = ['cogs.general',
                       'cogs.osu.osu']
 
 bot = commands.Bot(command_prefix=get_prefix, description='Kogomi--The Virtual Assistant')
+slash = SlashCommand(bot, sync_commands=True)
 
 # Here we load our extensions(cogs) listed above in [initial_extensions].
 if __name__ == '__main__':
