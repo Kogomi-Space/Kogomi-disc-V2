@@ -4,9 +4,13 @@ from .beatmapClass import BeatmapClass as Beatmap
 from .databaseClass import DatabaseClass as Database
 from .osuClass import OsuClass as Osuclass
 from .matchCosts import mcformula
+from .suijisim import ssim
 import importlib
 import datetime
 import asyncio
+import discord
+
+CACHE_FILE_PATH = '/home/bot/Kogomi-disc-TE/cogs/osu/data/cache'
 
 class Osu(commands.Cog):
     """Commands relating to the rhythm game osu!"""
@@ -23,6 +27,11 @@ class Osu(commands.Cog):
 
     def cog_unload(self):
         self.refreshdb.cancel()
+
+    @commands.command()
+    async def suijisim(self,ctx):
+        code = ssim()
+        await ctx.send(file=discord.File(f'{CACHE_FILE_PATH}/sim_{code}.png'))
 
     @commands.command(aliases=['sf'])
     async def sformat(self, ctx, mapid, mods = "NM"):
