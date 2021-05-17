@@ -175,6 +175,14 @@ class Osu(commands.Cog):
         await ctx.send("Rank after BWS: **{}**".format(newrank))
 
     @commands.command()
+    async def rbws(self,ctx,bws,bcount):
+        """Calculate the rank needed for your desired BWS given the amount of badges provided."""
+        bcount = int(bcount)
+        bws = int(bws)
+        newrank = round(bws ** ((10000/9937) ** (bcount ** 2)))
+        await ctx.send(f"Desired Rank: **{bws}** Badge Count: **{bcount}**\nRequired Rank: **{newrank}**")
+
+    @commands.command()
     async def petbws(self,ctx,rank,bcount):
         """Check your Badge Weighted Seeding rank for Pls Enjoy Tournament. -petbws [rank] [badgecount]"""
         bcount = int(bcount)
