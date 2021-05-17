@@ -167,14 +167,11 @@ class Osu(commands.Cog):
 
     @commands.command()
     async def rbws(self,ctx,bws,bcount):
-        """Find the osu rank needed for a desired bws given amount of badges. -rbws [bws] [badges]"""
+        """Calculate the rank needed for your desired BWS given the amount of badges provided."""
         bcount = int(bcount)
         bws = int(bws)
-        newrank = bcount ** 2
-        newrank = (10000/9937) ** newrank
-        newrank = bws ** newrank
-        newrank = round(newrank)
-        await ctx.send("To achieve rank {} with {} badges, it would require you to be rank {}".format(bws, bcount, newrank))
+        newrank = round(bws ** ((10000/9937) ** (bcount ** 2)))
+        await ctx.send(f"Desired Rank: **{bws}** Badge Count: **{bcount}**\nRequired Rank: **{newrank}**")
 
     @commands.command()
     async def petbws(self,ctx,rank,bcount):
