@@ -181,8 +181,7 @@ class Osu(commands.Cog):
         newrank = (0.9 * rank) / newrank
         newrank = rank - newrank
         newrank = round(newrank)
-        await ctx.send(f"Previous Rank: **{rank}**    Badge Count: **{bcount}**")
-        await ctx.send(f"Rank after BWS: **{newrank}**")
+        await ctx.send(f"Previous Rank: **{rank}**    Badge Count: **{bcount}**\nRank after BWS: **{newrank}**")
 
     @tasks.loop(hours=1.0)
     async def refreshdb(self):
