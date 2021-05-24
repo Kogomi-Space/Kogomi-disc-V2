@@ -51,7 +51,7 @@ async def mcformula(self, url, res, warmups):
                 username = await self.user.getUsername(user=player)
             except:
                 username = player + " (Banned)"
-            f.append("**{}**: {:15} - **{:0.2f}**".format(index + 1, username, pointlist0[index]))
+            f.append(f"**{index + 1}**: {username:15} - **{pointlist0[index]:0.2f}**")
         f.append("")
         f.append(":red_circle: **Red Team** :red_circle:")
         for index, player in enumerate(userlist1):
@@ -59,15 +59,15 @@ async def mcformula(self, url, res, warmups):
                 username = await self.user.getUsername(user=player)
             except:
                 username = player + " (Banned)"
-            f.append("**{}**: {:15} - **{:0.2f}**".format(index + 1, username, pointlist1[index]))
+            f.append(f"**{index + 1}**: {username:15} - **{pointlist1[index]:0.2f}**")
         f = "\n".join(f)
         try:
             embed = discord.Embed(
-                title="<a:mLoading:529680784194404352> {}: {} vs {}".format(tname, team1, team2),
+                title=f"<a:mLoading:529680784194404352> {tname}: {team1} vs {team2}",
                 url="https://osu.ppy.sh/mp/" + url,
                 description=f)
         except:
-            embed = discord.Embed(title="<a:mLoading:529680784194404352> {}".format(name),
+            embed = discord.Embed(title=f"<a:mLoading:529680784194404352> {name}",
                                   url="https://osu.ppy.sh/mp/" + url,
                                   description=f)
     else:
@@ -79,15 +79,15 @@ async def mcformula(self, url, res, warmups):
             except Exception as e:
                 print(e)
                 username = player + " (Banned)"
-            f.append("**{}**: {:15} - **{:0.2f}**".format(index + 1, username, pointlist[index]))
+            f.append(f"**{index + 1}**: {username:15} - **{pointlist[index]:0.2f}**")
         f = "\n".join(f)
         try:
             embed = discord.Embed(
-                title="<a:mLoading:529680784194404352> {}: {} vs {}".format(tname, team1, team2),
+                title=f"<a:mLoading:529680784194404352> {tname}: {team1} vs {team2}",
                 url="https://osu.ppy.sh/mp/" + url,
                 description=f)
         except:
-            embed = discord.Embed(title="<a:mLoading:529680784194404352> {}".format(name),
+            embed = discord.Embed(title=f"<a:mLoading:529680784194404352> {name}",
                                   url="https://osu.ppy.sh/mp/" + url,
                                   description=f)
     footer = ['o_o','oh god','O _o','why can\'t I hit any of the fucking notes','it\'s so doomed','hey good job guys']
