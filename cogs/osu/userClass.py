@@ -25,13 +25,13 @@ class UserClass:
     def embed(self, json):
         embed = discord.Embed()
         embed.title = json[0]["username"]
-        embed.url = "https://osu.ppy.sh/users/{}".format(json[0]["user_id"])
+        embed.url = f"https://osu.ppy.sh/users/{json[0]['user_id']}"
         embed.add_field(name="Join date", value=json[0]["join_date"][:10])
         embed.add_field(name="Accuracy", value=json[0]["accuracy"][:6])
         embed.add_field(name="Level", value=json[0]["level"][:5])
         embed.add_field(name="Ranked score", value=json[0]["ranked_score"])
         embed.add_field(name="Rank", value=json[0]["pp_rank"])
-        embed.add_field(name="Country rank ({})".format(json[0]["country"]), value=json[0]["pp_country_rank"])
+        embed.add_field(name=f"Country rank ({json[0]['country']})", value=json[0]["pp_country_rank"])
         embed.add_field(name="Playcount", value=json[0]["playcount"])
         embed.add_field(name="Total score", value=json[0]["total_score"])
         embed.add_field(name="Total seconds played", value=json[0]["total_seconds_played"])
@@ -41,7 +41,7 @@ class UserClass:
         #     embed.set_thumbnail(url="https://a.ppy.sh/{}".format(res[0]["user_id"]))
         #     await ctx.send(file=file,embed=embed)
         # except:
-        embed.set_thumbnail(url="https://a.ppy.sh/{}".format(json[0]["user_id"]))
+        embed.set_thumbnail(url=f"https://a.ppy.sh/{json[0]['user_id']}")
         return embed
 
     async def getUser(self):
