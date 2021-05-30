@@ -160,19 +160,23 @@ class Osu(commands.Cog):
             'count50' : c50,
             'countmiss' : cMisses
         }
-        await ctx.send("Your accuracy for [**{}**/**{}**/**{}**/**{}**] is **{}%**.".format(c300,c100,c50,cMisses,round(self.osu.calculate_acc(temp),2)))
+        await ctx.send(f"Your accuracy for [**{c300}**/**{c100}**/**{c50}**/**{cMisses}**] is **{round(self.osu.calculate_acc(temp),2)}%**.")
 
     @commands.command()
     async def bws(self,ctx,rank,bcount):
         """Check your Badge Weighted Seeding rank. -bws [rank] [badgecount]"""
         bcount = int(bcount)
         rank = int(rank)
-        newrank = bcount ** 2
-        newrank = 0.9937 ** newrank
-        newrank = rank ** newrank
-        newrank = round(newrank)
-        await ctx.send("Previous Rank: **{}**    Badge Count: **{}**".format(rank,bcount))
-        await ctx.send("Rank after BWS: **{}**".format(newrank))
+        newrank = round(rank ** (0.9937 ** (bcount ** 2)))
+        await ctx.send(f"Previous Rank: **{rank}**    Badge Count: **{bcount}**\nRank after BWS: **{newrank}**")
+
+    @commands.command()
+    async def rbws(self,ctx,bws,bcount):
+        """Calculate the rank needed for your desired BWS given the amount of badges provided."""
+        bcount = int(bcount)
+        bws = int(bws)
+        newrank = round(bws ** ((10000/9937) ** (bcount ** 2)))
+        await ctx.send(f"Desired BWS: **{bws}**    Badge Count: **{bcount}**\nRequired Rank: **{newrank}**")
 
     @commands.command()
     async def petbws(self,ctx,rank,bcount):
@@ -186,8 +190,7 @@ class Osu(commands.Cog):
         newrank = (0.9 * rank) / newrank
         newrank = rank - newrank
         newrank = round(newrank)
-        await ctx.send("Previous Rank: **{}**    Badge Count: **{}**".format(rank,bcount))
-        await ctx.send("Rank after BWS: **{}**".format(newrank))
+        await ctx.send(f"Previous Rank: **{rank}**    Badge Count: **{bcount}**\nRank after BWS: **{newrank}**")
 
     @tasks.loop(hours=1.0)
     async def refreshdb(self):

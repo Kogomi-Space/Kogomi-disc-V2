@@ -70,7 +70,7 @@ class DatabaseClass():
             return False
 
     def create_user(self, discid, osuid = None, osuname = None, loluser = None, lolregion = None):
-        self.cursor.execute("SELECT * FROM users WHERE discid = '{}'".format(discid))
+        self.cursor.execute(f"SELECT * FROM users WHERE discid = '{discid}'")
         res = self.cursor.fetchall()
         if len(res) == 0:
             sql = "INSERT INTO users (discid, osuid, osuname, loluser, lolregion) VALUES (%s, %s, %s, %s, %s)"
