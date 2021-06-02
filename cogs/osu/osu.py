@@ -10,7 +10,7 @@ import datetime
 import asyncio
 import discord
 
-CACHE_FILE_PATH = '/home/bot/Kogomi-disc-TE/cogs/osu/data/cache'
+CACHE_FILE_PATH = '/home/bot/Kogomi-disc/cogs/osu/data/cache'
 
 class Osu(commands.Cog):
     """Commands relating to the rhythm game osu!"""

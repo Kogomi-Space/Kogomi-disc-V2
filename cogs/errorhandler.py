@@ -59,12 +59,14 @@ class CommandErrorHandler(commands.Cog):
             if ctx.command.qualified_name == 'tag list':  # Check if the command being invoked is 'tag list'
                 await ctx.send('I could not find that member. Please try again.')
 
+        elif isinstance(error, commands.CommandOnCooldown):
+                await ctx.send(f":rage: {error}")
         else:
             # All other Errors not returned come here. And we can just print the default TraceBack.
             await ctx.send(f'An exception has occured while using the command `{ctx.prefix}{ctx.command}`. Please contact Dain if you think this is a mistake.')
             print('---------------------------------------------------------------------------------')
             print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-            logChannel = self.bot.get_channel(840415135034114068)
+            logChannel = self.bot.get_channel(789161503894929448)
             await logChannel.send(f"**Command Used: `{ctx.prefix}{ctx.command}`**\n" + "```" + "\n".join(traceback.format_exception(type(error), error, error.__traceback__)) + "```")
             traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             print('---------------------------------------------------------------------------------')

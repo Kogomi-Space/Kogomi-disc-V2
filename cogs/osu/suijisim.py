@@ -3,8 +3,8 @@ import random
 import matplotlib.pyplot as plt
 from pandas.plotting import table
 
-CACHE_FILE_PATH = '/home/bot/Kogomi-disc-TE/cogs/osu/data/cache'
-PLAYER_LIST_PATH = '/home/bot/Kogomi-disc-TE/cogs/osu/data/suijilist.txt'
+CACHE_FILE_PATH = '/home/bot/Kogomi-disc/cogs/osu/data/cache'
+PLAYER_LIST_PATH = '/home/bot/Kogomi-disc/cogs/osu/data/suijilist.txt'
 
 def ssim():
     users = []
